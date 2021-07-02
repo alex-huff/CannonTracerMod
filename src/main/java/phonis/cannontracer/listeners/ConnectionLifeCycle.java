@@ -5,9 +5,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import phonis.cannontracer.CannonTracerMod;
 import phonis.cannontracer.networking.CTChannel;
+import phonis.cannontracer.networking.CTLineType;
 import phonis.cannontracer.networking.CTRegister;
 import phonis.cannontracer.state.CTLineManager;
 
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConnectionLifeCycle {
@@ -17,6 +20,14 @@ public class ConnectionLifeCycle {
 
     @SubscribeEvent
     public void playerJoinEvent(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        SocketAddress address = event.manager.getRemoteAddress();
+
+        if (address instanceof InetSocketAddress) {
+            InetSocketAddress iNetSocketAddress = (InetSocketAddress) address;
+
+            if (iNetSocketAddress.getHostName().equals("pvp.cosmicproxy.net.")) return;
+        }
+
         this.started = true;
 
         this.ticks.set(0);
@@ -27,7 +38,7 @@ public class ConnectionLifeCycle {
         this.started = false;
 
         this.ticks.set(0);
-        CTLineManager.instance.clearByType(null); // clear all
+        CTLineManager.instance.clearByType(CTLineType.ALL);
     }
 
     @SubscribeEvent

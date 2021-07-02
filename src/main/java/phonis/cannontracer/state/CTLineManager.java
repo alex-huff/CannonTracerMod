@@ -3,6 +3,7 @@ package phonis.cannontracer.state;
 import phonis.cannontracer.networking.CTArtifact;
 import phonis.cannontracer.networking.CTLine;
 import phonis.cannontracer.networking.CTLineType;
+import phonis.cannontracer.networking.CTNewLines;
 
 import java.util.*;
 
@@ -61,10 +62,8 @@ public class CTLineManager {
         return lines;
     }
 
-    public synchronized void addLines(List<CTLine> lines) {
-        for (CTLine line : lines) {
-            this.getLinesForWorld(line.world).add(line);
-        }
+    public synchronized void addLines(CTNewLines ctNewLines) {
+        this.getLinesForWorld(ctNewLines.world).addAll(ctNewLines.lines);
     }
 
     public synchronized void onTick() {
@@ -83,7 +82,7 @@ public class CTLineManager {
     }
 
     public synchronized void clearByType(CTLineType type) {
-        if (type == null) {
+        if (type.equals(CTLineType.ALL)) {
             this.lineMap.clear();
 
             return;

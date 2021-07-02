@@ -1,9 +1,9 @@
 package phonis.cannontracer.networking;
 
 import net.minecraft.network.INetHandler;
+import phonis.cannontracer.CannonTracerMod;
 import phonis.cannontracer.state.CTLineManager;
 import phonis.cannontracer.state.CTState;
-import phonis.cannontracer.CannonTracerMod;
 
 import java.io.*;
 
@@ -21,14 +21,38 @@ public class CTChannel extends PluginChannel {
 
     @Override
     public void onMessage(byte[] in, INetHandler netHandler) {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(in));
-            CTPacket packet = (CTPacket) ois.readObject();
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(in));
 
-            this.handlePacket(packet);
+        try {
+            byte packetId = dis.readByte();
+
+            switch (packetId) {
+                case Packets.registerID:
+                    this.handlePacket(CTRegister.fromBytes(dis));
+
+                    break;
+                case Packets.unsupportedID:
+                    this.handlePacket(CTUnsupported.fromBytes(dis));
+
+                    break;
+                case Packets.newLinesID:
+                    this.handlePacket(CTNewLines.fromBytes(dis));
+
+                    break;
+                case Packets.clearID:
+                    this.handlePacket(CTClear.fromBytes(dis));
+
+                    break;
+                case Packets.setWorldID:
+                    this.handlePacket(CTSetWorld.fromBytes(dis));
+
+                    break;
+                default:
+                    System.out.println("Unrecognised packet.");
+
+                    break;
+            }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -39,9 +63,9 @@ public class CTChannel extends PluginChannel {
         } else if (packet instanceof CTSetWorld) {
             CTState.currentWorld = ((CTSetWorld) packet).world;
         } else if (packet instanceof CTNewLines) {
-            CTNewLines ctNewLines = (CTNewLines) packet;
+            CTNewLines ctNewLine = (CTNewLines) packet;
 
-            CTLineManager.instance.addLines(ctNewLines.lines);
+            CTLineManager.instance.addLines(ctNewLine);
         } else if (packet instanceof CTClear) {
             CTClear ctClear = (CTClear) packet;
 
@@ -52,12 +76,12 @@ public class CTChannel extends PluginChannel {
     }
 
     public void send(CTPacket packet) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
 
-            oos.writeObject(packet);
-            oos.flush();
+        try {
+            dos.writeByte(packet.packetID());
+            packet.toBytes(dos);
             this.sendToServer(baos.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
