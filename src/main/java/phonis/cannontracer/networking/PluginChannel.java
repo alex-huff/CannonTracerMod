@@ -11,9 +11,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 
 // adapted from sirati97
@@ -25,34 +22,21 @@ public abstract class PluginChannel {
 
     public PluginChannel(String name) {
         this.name = name;
-        channels = NetworkRegistry.INSTANCE.newChannel(name, new PluginChannelInboundHandler(this));
-    }
-
-    public void send(CTPacket packet) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-
-            oos.writeObject(packet);
-            oos.flush();
-            this.sendToServer(baos.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.channels = NetworkRegistry.INSTANCE.newChannel(name, new PluginChannelInboundHandler(this));
     }
 
     public void sendToServer(byte[] out) {
         FMLProxyPacket message = encode(out);
 
-        channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
-        channels.get(Side.CLIENT).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
+        this.channels.get(Side.CLIENT).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 
     public String getName() {
         return name;
     }
 
-    public abstract byte[] onMessage(byte[] in, INetHandler netHandler);
+    public abstract void onMessage(byte[] in, INetHandler netHandler);
 
     public FMLProxyPacket encode(byte[] out) {
         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
