@@ -39,6 +39,10 @@ public class CTChannel extends PluginChannel {
                     this.handlePacket(CTNewLines.fromBytes(dis));
 
                     break;
+                case Packets.newArtifactsID:
+                    this.handlePacket(CTNewArtifacts.fromBytes(dis));
+
+                    break;
                 case Packets.clearID:
                     this.handlePacket(CTClear.fromBytes(dis));
 
@@ -66,6 +70,10 @@ public class CTChannel extends PluginChannel {
             CTNewLines ctNewLine = (CTNewLines) packet;
 
             CTLineManager.instance.addLines(ctNewLine);
+        } else if (packet instanceof CTNewArtifacts) {
+            CTNewArtifacts ctNewArtifacts = (CTNewArtifacts) packet;
+
+            CTLineManager.instance.addArtifacts(ctNewArtifacts);
         } else if (packet instanceof CTClear) {
             CTClear ctClear = (CTClear) packet;
 

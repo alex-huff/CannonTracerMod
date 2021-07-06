@@ -1,9 +1,6 @@
 package phonis.cannontracer.state;
 
-import phonis.cannontracer.networking.CTArtifact;
-import phonis.cannontracer.networking.CTLine;
-import phonis.cannontracer.networking.CTLineType;
-import phonis.cannontracer.networking.CTNewLines;
+import phonis.cannontracer.networking.*;
 
 import java.util.*;
 
@@ -41,12 +38,6 @@ public class CTLineManager {
 
         for (CTLine line : lines) {
             consumer.accept(line);
-
-            for (CTArtifact artifact : line.artifactList) {
-                for (CTLine artifactLine : artifact.getLines()) {
-                    consumer.accept(artifactLine);
-                }
-            }
         }
     }
 
@@ -60,6 +51,12 @@ public class CTLineManager {
         }
 
         return lines;
+    }
+
+    public synchronized void addArtifacts(CTNewArtifacts ctNewArtifacts) {
+        for (CTArtifact artifact : ctNewArtifacts.artifacts) {
+            this.getLinesForWorld(ctNewArtifacts.world).addAll(artifact.makeLines());
+        }
     }
 
     public synchronized void addLines(CTNewLines ctNewLines) {
