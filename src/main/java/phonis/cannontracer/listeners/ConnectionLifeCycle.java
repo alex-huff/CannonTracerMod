@@ -26,6 +26,7 @@ public class ConnectionLifeCycle {
             InetSocketAddress iNetSocketAddress = (InetSocketAddress) address;
 
             if (iNetSocketAddress.getHostName().equals("pvp.cosmicproxy.net.")) return;
+            if (iNetSocketAddress.getHostName().equals("pvp.cosmicproxy.net")) return;
         }
 
         this.started = true;
