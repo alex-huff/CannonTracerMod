@@ -4,6 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import phonis.cannontracer.listeners.ClientTracerTick;
 import phonis.cannontracer.listeners.ConnectionLifeCycle;
 import phonis.cannontracer.networking.CTChannel;
 import phonis.cannontracer.render.CTWorldRenderer;
@@ -21,6 +22,7 @@ public class CannonTracerMod {
         CTChannel.initialize();
         MinecraftForge.EVENT_BUS.register(new CTWorldRenderer());
         MinecraftForge.EVENT_BUS.register(new ConnectionLifeCycle());
+        MinecraftForge.EVENT_BUS.register(new ClientTracerTick());
     }
 
 }
