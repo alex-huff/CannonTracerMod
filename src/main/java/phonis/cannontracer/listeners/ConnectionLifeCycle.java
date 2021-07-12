@@ -1,5 +1,7 @@
 package phonis.cannontracer.listeners;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;

@@ -5,6 +5,7 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 import phonis.cannontracer.networking.CTLine;
+import phonis.cannontracer.networking.CTVec3;
 import phonis.cannontracer.state.CTLineManager;
 import phonis.cannontracer.state.LineConsumer;
 
@@ -31,7 +32,12 @@ public class CTWorldRenderer {
             new LineConsumer() {
                 @Override
                 public void accept(CTLine line) {
-                    GL11.glColor4f(line.getR(), line.getG(), line.getB(), 1f);
+                    if (line.start.x == line.finish.x && line.start.z == line.finish.z && CTWorldRenderer.in1x1(line.start)) {
+                        GL11.glColor4f(.3f, .3f, .3f, 1f);
+                    } else {
+                        GL11.glColor4f(line.getR(), line.getG(), line.getB(), 1f);
+                    }
+
                     GL11.glBegin(0x3);
                     GL11.glVertex3d(line.start.x, line.start.y, line.start.z);
                     GL11.glVertex3d(line.finish.x, line.finish.y, line.finish.z);
@@ -46,6 +52,13 @@ public class CTWorldRenderer {
         GL11.glLineWidth(1f);
         GL11.glTranslated(0, 0, 0);
         GL11.glPopMatrix();
+    }
+
+    private static boolean in1x1(CTVec3 point) {
+        double xRemainder = Math.abs(point.x % 1d);
+        double zRemainder = Math.abs(point.z % 1d);
+
+        return xRemainder >= .4899d && xRemainder <= .5101d && zRemainder >= .4899d && zRemainder <= .5101d;
     }
 
 }
