@@ -7,7 +7,6 @@ import java.util.*;
 public class CTLineManager {
 
     public static final CTLineManager instance = new CTLineManager();
-    private static final UUID localWorldUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     private static Set<CTLineType> tntTypes;
     private static Set<CTLineType> sandTypes;
     private static Set<CTLineType> playerTypes;
@@ -32,7 +31,10 @@ public class CTLineManager {
 
     public synchronized void forEachLineInCurrentWorld(LineConsumer consumer) {
         UUID currentWorld = CTState.currentWorld;
-        List<CTLine> lines = this.getLinesForWorld(currentWorld == null ? CTLineManager.localWorldUUID : currentWorld);
+
+        if (currentWorld == null) return;
+
+        List<CTLine> lines = this.getLinesForWorld(currentWorld);
 
         for (CTLine line : lines) {
             consumer.accept(line);
@@ -55,10 +57,6 @@ public class CTLineManager {
         for (CTArtifact artifact : ctNewArtifacts.artifacts) {
             this.getLinesForWorld(ctNewArtifacts.world).addAll(artifact.makeLines());
         }
-    }
-
-    public synchronized void addLocalLine(CTLine line) {
-        this.getLinesForWorld(CTLineManager.localWorldUUID).add(line);
     }
 
     public synchronized void addLines(CTNewLines ctNewLines) {

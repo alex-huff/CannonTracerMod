@@ -1,11 +1,5 @@
 package phonis.cannontracer.listeners;
 
-import com.google.common.base.Predicate;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -47,6 +41,7 @@ public class ConnectionLifeCycle {
 
         this.ticks.set(0);
         CTLineManager.instance.clearByType(CTLineType.ALL);
+        
         CTState.currentWorld = null;
     }
 
@@ -54,7 +49,7 @@ public class ConnectionLifeCycle {
     public void onTick(TickEvent.ClientTickEvent event) {
         if (this.started) {
             if (this.ticks.get() == 20) { // delay it a little before handshake, quite horrible a way to do this
-                // CTChannel.instance.send(new CTRegister(CannonTracerMod.protocolVersion));
+                CTChannel.instance.send(new CTRegister(CannonTracerMod.protocolVersion));
                 this.ticks.set(0);
 
                 started = false;
