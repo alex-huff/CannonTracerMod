@@ -1,9 +1,9 @@
-package phonis.cannontracer.networking;
+package dev.phonis.cannontracer.networking;
 
 import net.minecraft.network.INetHandler;
-import phonis.cannontracer.CannonTracerMod;
-import phonis.cannontracer.state.CTLineManager;
-import phonis.cannontracer.state.CTState;
+import dev.phonis.cannontracer.CannonTracerMod;
+import dev.phonis.cannontracer.state.CTLineManager;
+import dev.phonis.cannontracer.state.CTState;
 
 import java.io.*;
 

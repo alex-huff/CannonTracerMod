@@ -1,14 +1,14 @@
-package phonis.cannontracer.listeners;
+package dev.phonis.cannontracer.listeners;
 
+import dev.phonis.cannontracer.networking.CTChannel;
+import dev.phonis.cannontracer.networking.CTLineType;
+import dev.phonis.cannontracer.networking.CTRegister;
+import dev.phonis.cannontracer.state.CTLineManager;
+import dev.phonis.cannontracer.state.CTState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import phonis.cannontracer.CannonTracerMod;
-import phonis.cannontracer.networking.CTChannel;
-import phonis.cannontracer.networking.CTLineType;
-import phonis.cannontracer.networking.CTRegister;
-import phonis.cannontracer.state.CTLineManager;
-import phonis.cannontracer.state.CTState;
+import dev.phonis.cannontracer.CannonTracerMod;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;

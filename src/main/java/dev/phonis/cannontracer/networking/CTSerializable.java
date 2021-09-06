@@ -1,4 +1,4 @@
-package phonis.cannontracer.networking;
+package dev.phonis.cannontracer.networking;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

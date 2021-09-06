@@ -1,4 +1,4 @@
-package phonis.cannontracer.networking;
+package dev.phonis.cannontracer.networking;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

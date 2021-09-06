@@ -21,7 +21,7 @@ plugins {
 }
 */
 version = "1.0"
-group= "com.phonis" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "dev.phonis" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "cannontracermod"
 
 minecraft {

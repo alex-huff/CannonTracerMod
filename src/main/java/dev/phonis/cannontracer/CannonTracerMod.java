@@ -1,12 +1,12 @@
-package phonis.cannontracer;
+package dev.phonis.cannontracer;
 
+import dev.phonis.cannontracer.listeners.ConnectionLifeCycle;
+import dev.phonis.cannontracer.networking.CTChannel;
+import dev.phonis.cannontracer.render.CTWorldRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import phonis.cannontracer.listeners.ConnectionLifeCycle;
-import phonis.cannontracer.networking.CTChannel;
-import phonis.cannontracer.render.CTWorldRenderer;
 
 @Mod(modid = CannonTracerMod.MODID, version = CannonTracerMod.VERSION)
 public class CannonTracerMod {
