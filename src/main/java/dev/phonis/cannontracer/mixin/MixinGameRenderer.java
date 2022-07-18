@@ -18,7 +18,7 @@ class MixinGameRenderer
                      opcode = Opcodes.GETFIELD, ordinal = 0), method = "renderWorld")
     void onWorldRender(float tickDelta, long limitTime, MatrixStack matrixStack, CallbackInfo ci)
     {
-        CTWorldRenderer.drawLines(tickDelta, matrixStack);
+        CTWorldRenderer.drawLines(matrixStack);
     }
 
 }

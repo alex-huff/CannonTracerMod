@@ -21,8 +21,9 @@ class CTReceiver implements ClientPlayNetworking.PlayChannelHandler
     void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf,
                  PacketSender responseSender)
     {
-
-        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(buf.array()));
+        byte[] data = new byte[buf.readableBytes()];
+        buf.getBytes(0, data);
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
 
         try {
             byte packetId = dis.readByte();
