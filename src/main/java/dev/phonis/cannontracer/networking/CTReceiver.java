@@ -1,27 +1,28 @@
 package dev.phonis.cannontracer.networking;
 
-import net.minecraft.network.INetHandler;
-import dev.phonis.cannontracer.CannonTracerMod;
 import dev.phonis.cannontracer.state.CTLineManager;
 import dev.phonis.cannontracer.state.CTState;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 
 import java.io.*;
 
-public class CTChannel extends PluginChannel {
+public
+class CTReceiver implements ClientPlayNetworking.PlayChannelHandler
+{
 
-    public static CTChannel instance;
-
-    public CTChannel(String name) {
-        super(name);
-    }
-
-    public static void initialize() {
-        CTChannel.instance = new CTChannel(CannonTracerMod.channelName);
-    }
+    public static CTReceiver INSTANCE = new CTReceiver();
 
     @Override
-    public void onMessage(byte[] in, INetHandler netHandler) {
-        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(in));
+    public
+    void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf,
+                 PacketSender responseSender)
+    {
+
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(buf.array()));
 
         try {
             byte packetId = dis.readByte();
@@ -80,19 +81,6 @@ public class CTChannel extends PluginChannel {
             CTLineManager.instance.clearByType(ctClear.type);
         } else {
             System.out.println("Unrecognised packet.");
-        }
-    }
-
-    public void send(CTPacket packet) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(baos);
-
-        try {
-            dos.writeByte(packet.packetID());
-            packet.toBytes(dos);
-            this.sendToServer(baos.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
