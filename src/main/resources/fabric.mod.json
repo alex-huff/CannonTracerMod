@@ -2,43 +2,30 @@
   "schemaVersion": 1,
   "id": "cannon-tracer-mod",
   "version": "${version}",
-
   "name": "Cannon Tracer",
   "description": "The client mod for CannonTracer plugin",
-  "authors":
-  [
+  "authors": [
     "phonis"
   ],
-
   "license": "CC0-1.0",
-
   "environment": "client",
-  "entrypoints":
-  {
-    "client":
-    [
+  "entrypoints": {
+    "client": [
       "dev.phonis.cannontracer.CannonTracerMod"
     ]
   },
-  "mixins":
-  [
+  "mixins": [
     "cannon-tracer-mod.mixins.json"
   ],
-
-  "depends":
-  {
+  "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17"
   },
-
-  "custom":
-  {
-    "modmenu":
-    {
-      "links":
-      {
+  "custom": {
+    "modmenu": {
+      "links": {
         "github": "https://github.com/alex-huff/CannonTracerMod"
       }
     }

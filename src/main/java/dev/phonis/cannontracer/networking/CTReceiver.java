@@ -8,7 +8,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 
 public
 class CTReceiver implements ClientPlayNetworking.PlayChannelHandler
@@ -25,10 +27,12 @@ class CTReceiver implements ClientPlayNetworking.PlayChannelHandler
         buf.getBytes(0, data);
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
 
-        try {
+        try
+        {
             byte packetId = dis.readByte();
 
-            switch (packetId) {
+            switch (packetId)
+            {
                 case Packets.registerID:
                     this.handlePacket(CTRegister.fromBytes(dis));
 
@@ -58,29 +62,44 @@ class CTReceiver implements ClientPlayNetworking.PlayChannelHandler
 
                     break;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    private void handlePacket(CTPacket packet) {
-        if (packet instanceof CTUnsupported) {
+    private
+    void handlePacket(CTPacket packet)
+    {
+        if (packet instanceof CTUnsupported)
+        {
             System.out.println("Unsupported: " + ((CTUnsupported) packet).protocolVersion);
-        } else if (packet instanceof CTSetWorld) {
+        }
+        else if (packet instanceof CTSetWorld)
+        {
             CTState.currentWorld = ((CTSetWorld) packet).world;
-        } else if (packet instanceof CTNewLines) {
+        }
+        else if (packet instanceof CTNewLines)
+        {
             CTNewLines ctNewLine = (CTNewLines) packet;
 
             CTLineManager.instance.addLines(ctNewLine);
-        } else if (packet instanceof CTNewArtifacts) {
+        }
+        else if (packet instanceof CTNewArtifacts)
+        {
             CTNewArtifacts ctNewArtifacts = (CTNewArtifacts) packet;
 
             CTLineManager.instance.addArtifacts(ctNewArtifacts);
-        } else if (packet instanceof CTClear) {
+        }
+        else if (packet instanceof CTClear)
+        {
             CTClear ctClear = (CTClear) packet;
 
             CTLineManager.instance.clearByType(ctClear.type);
-        } else {
+        }
+        else
+        {
             System.out.println("Unrecognised packet.");
         }
     }

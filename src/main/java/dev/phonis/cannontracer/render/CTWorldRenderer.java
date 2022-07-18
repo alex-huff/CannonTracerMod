@@ -15,9 +15,9 @@ class CTWorldRenderer
     public static
     void drawLines(MatrixStack matrixStack)
     {
-        Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-        Camera   camera = MinecraftClient.getInstance().gameRenderer.getCamera();
-        Vec3d    camPos = camera.getPos();
+        Matrix4f      matrix        = matrixStack.peek().getPositionMatrix();
+        Camera        camera        = MinecraftClient.getInstance().gameRenderer.getCamera();
+        Vec3d         camPos        = camera.getPos();
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         RenderSystem.disableCull();
         RenderSystem.enableBlend();

@@ -43,8 +43,9 @@ class CannonTracerMod implements ClientModInitializer
                     {
                         if (Thread.currentThread().getName().equals("Render thread"))
                         {
-                            clientPlayNetworkHandler.sendPacket(ClientPlayNetworking.createC2SPacket(CannonTracerMod.cTIdentifier,
-                                CannonTracerMod.packetToByteBuf(new CTRegister(CannonTracerMod.protocolVersion))));
+                            clientPlayNetworkHandler.sendPacket(
+                                ClientPlayNetworking.createC2SPacket(CannonTracerMod.cTIdentifier,
+                                    CannonTracerMod.packetToByteBuf(new CTRegister(CannonTracerMod.protocolVersion))));
                         }
                     }
                     catch (IOException e)
@@ -76,8 +77,8 @@ class CannonTracerMod implements ClientModInitializer
                 return;
             }
 
-            handler.sendPacket(
-                ClientPlayNetworking.createC2SPacket(CannonTracerMod.cTIdentifier, CannonTracerMod.packetToByteBuf(packet)));
+            handler.sendPacket(ClientPlayNetworking.createC2SPacket(CannonTracerMod.cTIdentifier,
+                CannonTracerMod.packetToByteBuf(packet)));
         }
         catch (IOException e)
         {
